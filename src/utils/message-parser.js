@@ -13,6 +13,6 @@ module.exports = function parseMessage(message, prefix){
     let regex = RegExp(`^${prefix}.*`, 'g');
     if(!regex.test(message)) return new ParsedMessage(false, null, null, body, prefix);
 
-    keywords = body.match(/\w+|"(?:\\"|[^"])+"/g).map((el) => el.replace(/\"/g, ''));
+    keywords = body.match(/[^\ "]+|"(?:\\"|[^"])+"/g).map((el) => el.replace(/\"/g, ''));
     return new ParsedMessage(true, keywords[0], keywords.slice(1), body, prefix);
 }
