@@ -22,7 +22,7 @@ module.exports = new Command(async (args) => {
     const rating = random(1, 100);
     const emoji = Math.ceil(rating / reaction.length) - 1;
     return {
-        text: `*Waifu rating machine*:\n\n${target} a ${rating}% waifu ${reaction[emoji]}`
+        text: `*Waifu rating machine*:\n\n${target} a ${rating}/100 waifu ${reaction[emoji]}`
     }
 }, 
 {
