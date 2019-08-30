@@ -1,9 +1,9 @@
+const fetch = require('node-fetch')
+const fs = require('fs-extra');
+
 function random(min, max){
     return Math.floor(Math.random() * (max - min) + min);
 }
-
-const fetch = require('node-fetch')
-const fs = require('fs-extra');
 
 const downloadFile = (async (url, path) => {
     const res = await fetch(url);
@@ -19,7 +19,14 @@ const downloadFile = (async (url, path) => {
       });
 });
 
+function arrayRandom(array){
+  if(!Array.isArray(array))
+    return undefined;
+  return array[random(0, array.length)]
+}
+
 module.exports = {
     random,
-    downloadFile
+    downloadFile,
+    arrayRandom
 }
