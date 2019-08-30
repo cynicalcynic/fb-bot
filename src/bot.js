@@ -1,10 +1,12 @@
-const {readdirSync} = require('fs');
+const {readdirSync, ensureDirSync, unlink} = require('fs-extra');
 const {join} = require('path');
 const {Client} = require('libfb');
 const parseMessage = require('./utils/message-parser.js');
 const fetch = require('node-fetch');
-const request = require('request');
+const request = require('request-promise');
 const https = require('https');
+const {downloadFile} = require('./utils/utils.js')
+const uuid = require('uuid/v1');
 
 class Bot{
     constructor(username, password){
@@ -39,8 +41,17 @@ class Bot{
         if(success){
             let command = this.commands.find((command) => command.props.triggers.includes(cmd));
             if(command !== undefined){
-                let {text} = await command.execute(args);
-                this.client.sendMessage(message.threadId, text);
+                let {text, attachment} = await command.execute(args);
+                if(attachment !== undefined){
+                    const tempDir = join(__dirname, 'tmp');
+                    ensureDirSync(tempDir);
+                    let filePath = join(tempDir, uuid());
+                    await downloadFile(attachment, filePath);
+                    await this.client.sendAttachmentFile(message.threadId, filePath);
+                    unlink(filePath);
+                }
+                else if(text !== undefined)
+                    this.client.sendMessage(message.threadId, text);
             }
             else{
                 this.client.sendMessage(message.threadId, 'I dont know what you want me to do faggot');
