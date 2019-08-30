@@ -1,0 +1,21 @@
+{
+  "name": "fb-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js --username username --password password",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "fs-extra": "^8.1.0",
+    "libfb": "^2.3.4",
+    "node-fetch": "^2.6.0",
+    "node-http-ping": "^0.3.1",
+    "request": "^2.88.0",
+    "request-promises": "^1.1.0",
+    "yargs": "^14.0.0"
+  }
+}
