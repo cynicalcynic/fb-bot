@@ -4,8 +4,8 @@ class Command{
         this.props = props;
     }
 
-    execute(args){
-        return this.fn(args);
+    execute(args, message, bot){
+        return this.fn(args, message, bot);
     }
 }
 

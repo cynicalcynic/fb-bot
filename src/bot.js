@@ -41,7 +41,7 @@ class Bot{
         if(success){
             let command = this.commands.find((command) => command.props.triggers.includes(cmd));
             if(command !== undefined){
-                let {text, attachment} = await command.execute(args);
+                let {text, attachment} = await command.execute(args, message, this);
                 if(attachment !== undefined){
                     const tempDir = join(__dirname, 'tmp');
                     ensureDirSync(tempDir);
