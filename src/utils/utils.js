@@ -20,5 +20,6 @@ const downloadFile = (async (url, path) => {
 });
 
 module.exports = {
-    random
+    random,
+    downloadFile
 }
