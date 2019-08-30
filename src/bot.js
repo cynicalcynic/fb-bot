@@ -43,9 +43,9 @@ class Bot{
             if(command !== undefined){
                 let {text, attachment} = await command.execute(args);
                 if(attachment !== undefined){
+                    const tempDir = join(__dirname, 'tmp');
+                    ensureDirSync(tempDir);
                     for(let img of attachment){
-                        const tempDir = join(__dirname, 'tmp');
-                        ensureDirSync(tempDir);
                         let filePath = join(tempDir, uuid());
                         await downloadFile(img, filePath);
                         this.client.sendAttachmentFile(message.threadId, filePath).then(()=>unlink(filePath));
