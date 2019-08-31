@@ -14,6 +14,7 @@ class Bot{
         this.commands = []
         this.loadCommands();
         this.setupClient(username, password);
+        this.bootTime = Date.now();
     }
 
     loadCommands(){
