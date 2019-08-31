@@ -8,7 +8,7 @@ class RedditCommand{
     async execute(args, message, bot){
 
         try{
-            let res = await request('https://www.reddidfgdfgft.com' + this.props.endpoint);
+            let res = await request('https://www.reddit.com' + this.props.endpoint);
         }
         catch(e){
             return {text : 'meme machine broke\n' + e}
