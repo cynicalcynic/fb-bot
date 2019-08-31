@@ -44,7 +44,7 @@ class Bot{
                 let {text, attachment} = await command.execute(args, message, this);
                 if(text !== undefined)
                     this.client.sendMessage(message.threadId, text);
-                    
+
                 if(attachment !== undefined){
                     const tempDir = join(__dirname, 'tmp');
                     ensureDirSync(tempDir);
@@ -53,11 +53,11 @@ class Bot{
                         if(/^http/.test(img)){
                             filePath = join(tempDir, uuid());
                             await downloadFile(img, filePath);
+                            this.client.sendAttachmentFile(message.threadId, filePath).then(()=>unlink(filePath));
                         }
                         else
                             filePath = join(__dirname, img);
-                        console.log(filePath);
-                        this.client.sendAttachmentFile(message.threadId, filePath).then(()=>unlink(filePath));
+                            this.client.sendAttachmentFile(message.threadId, filePath);
                     }
                 }
             }
