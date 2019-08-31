@@ -10,9 +10,9 @@ module.exports = new Command(async (args, message, bot) => {
     else
         target = args.join(' ');
     return {
-        text: `*${target}'s*\n\n8${'='.repeat(random(1, 20))}D`
+        text: `*${target}'s peepee*\n\n8${'='.repeat(random(1, 20))}D`
     }
 }, 
 {
-    triggers : ['penis', 'howbig']
+    triggers : ['penis', 'howbig', 'peepee']
 });
