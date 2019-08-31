@@ -55,9 +55,10 @@ class Bot{
                             await downloadFile(img, filePath);
                             this.client.sendAttachmentFile(message.threadId, filePath).then(()=>unlink(filePath));
                         }
-                        else
+                        else{
                             filePath = join(__dirname, img);
                             this.client.sendAttachmentFile(message.threadId, filePath);
+                        }
                     }
                 }
             }
