@@ -14,5 +14,5 @@ module.exports = new Command(async (args, message, bot) => {
     }
 }, 
 {
-    triggers : ['penis']
+    triggers : ['penis', 'howbig']
 });
