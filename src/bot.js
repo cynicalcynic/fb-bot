@@ -50,7 +50,7 @@ class Bot{
                     ensureDirSync(tempDir);
                     for(let img of attachment){
                         let filePath;
-                        if(/^http/.test(img)){
+                        if(img.startsWith('http')){
                             filePath = join(tempDir, uuid());
                             await downloadFile(img, filePath);
                             this.client.sendAttachmentFile(message.threadId, filePath).then(()=>unlink(filePath));
