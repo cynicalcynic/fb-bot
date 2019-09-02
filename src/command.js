@@ -1,7 +1,10 @@
 class Command{
     constructor(fn, props){
         this.fn = fn;
-        this.props = props;
+        this.props = Object.assign({
+            cooldown : 3000,
+            nsfw : false
+        }, props)
     }
 
     execute(args, message, bot){

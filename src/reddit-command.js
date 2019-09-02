@@ -3,7 +3,10 @@ const {arrayRandom} = require('./utils/utils.js');
 
 class RedditCommand{
     constructor(props){
-        this.props = props;
+        this.props = Object.assign({
+            cooldown : 5000,
+            nsfw : false
+        }, props);
     }
     async execute(args, message, bot){
 

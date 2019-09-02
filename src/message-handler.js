@@ -8,9 +8,30 @@ const uuid = require('uuid/v1');
 module.exports = async function messageHandler(message){
     let {success, args, cmd} = parseMessage(message.message, '!');
     if(!success) return;
-
     let command = this.commands.find((command) => command.props.triggers.includes(cmd));
     if(command !== undefined){
+        //check and set cooldown
+        let userCooldowns = this.cooldowns.get(message.authorId);
+        if(!userCooldowns){
+            this.cooldowns.set(message.authorId, []);
+            userCooldowns = this.cooldowns.get(message.authorId);
+        }
+        let cooldown = userCooldowns.find(c => c.triggers.includes(cmd));
+        if(cooldown){
+            if(cooldown.until > Date.now())
+            {   
+                let waitTime = cooldown.until - Date.now();
+                this.client.sendMessage(message.threadId, `you have to wait ${waitTime/1000}s to use this command`);
+                return;
+            }
+            else{
+                cooldown.until = Date.now() + command.props.cooldown;
+            }
+        }
+        else
+            userCooldowns.push({triggers : command.props.triggers, until : Date.now() + command.props.cooldown});
+
+
         let {text, attachment} = await command.execute(args, message, this);
         if(text !== undefined)
             this.client.sendMessage(message.threadId, text);
@@ -37,3 +58,4 @@ module.exports = async function messageHandler(message){
     }
 }
 
+// function checkCooldown(cooldown)

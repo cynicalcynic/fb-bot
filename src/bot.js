@@ -15,6 +15,7 @@ class Bot{
 
         this.redis = new Redis();
         this.db = require('./db-functions.js');
+        this.cooldowns = new Map();
     }
 
     loadCommands(){
