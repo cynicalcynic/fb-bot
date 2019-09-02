@@ -1,4 +1,4 @@
-const {readdirSync, ensureDirSync, unlink} = require('fs-extra');
+const {readdirSync, ensureDirSync, unlink, writeFileSync, existsSync, readFileSync} = require('fs-extra');
 const {join} = require('path');
 const {Client} = require('libfb');
 const parseMessage = require('./utils/message-parser.js');
@@ -12,8 +12,21 @@ class Bot{
         this.bootTime = Date.now();
         this.redis = new Redis();
         this.cooldowns = new Map();
+        if(existsSync('../config.json')){
+            const config = readFileSync('../config.json');
+            this.config = new Map(JSON.parse(config));
+        }
+        else
+            this.config = new Map();
+        this.db = require('./db-functions')(this);
         this.loadCommands();
         this.setupClient(username, password);
+
+        process.on('SIGINT', ()=>{
+            const config = JSON.stringify([...this.config]);
+            writeFileSync('../config.json', config);
+            process.exit();
+        });
     }
 
     loadCommands(){
