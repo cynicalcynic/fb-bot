@@ -10,12 +10,11 @@ class Bot{
         this.client = new Client();
         this.commands = []
         this.bootTime = Date.now();
-        this.loadCommands();
-        this.setupClient(username, password);
-
         this.redis = new Redis();
         this.db = require('./db-functions.js');
         this.cooldowns = new Map();
+        this.loadCommands();
+        this.setupClient(username, password);
     }
 
     loadCommands(){
