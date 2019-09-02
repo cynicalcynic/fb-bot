@@ -3,6 +3,7 @@ const {join} = require('path');
 const {Client} = require('libfb');
 const parseMessage = require('./utils/message-parser.js');
 const fetch = require('node-fetch');
+const Redis = require('ioredis');
 
 class Bot{
     constructor(username, password){
@@ -11,6 +12,9 @@ class Bot{
         this.bootTime = Date.now();
         this.loadCommands();
         this.setupClient(username, password);
+
+        this.redis = new Redis();
+        this.db = require('./db-functions.js');
     }
 
     loadCommands(){
