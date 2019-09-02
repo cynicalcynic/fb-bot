@@ -5,5 +5,6 @@ const request = require('request-promise');
 module.exports = new Command( 
 {
     triggers : ['hentai', 'anime'],
-    endpoint : '/r/hentai.json?t=day&limit=100'
+    endpoint : '/r/hentai.json?t=day&limit=100',
+    cooldown : 20000
 });
