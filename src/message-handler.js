@@ -6,8 +6,10 @@ const {downloadFile} = require('./utils/utils.js')
 const uuid = require('uuid/v1');
 
 module.exports = async function messageHandler(message){
-    let {success, args, cmd} = parseMessage(message.message, '!');
+    let prefix = this.db.getThreadConfig(message.threadId).prefix;
+    let {success, args, cmd} = parseMessage(message.message, prefix);
     if(!success) return;
+    
     let command = this.commands.find((command) => command.props.triggers.includes(cmd));
     if(command !== undefined){
         //check and set cooldown
