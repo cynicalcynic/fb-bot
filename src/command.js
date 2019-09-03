@@ -3,7 +3,8 @@ class Command{
         this.fn = fn;
         this.props = Object.assign({
             cooldown : 3000,
-            nsfw : false
+            nsfw : false,
+            usage : '{command}'
         }, props)
     }
 
