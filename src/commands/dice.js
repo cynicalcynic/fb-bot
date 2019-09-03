@@ -8,7 +8,7 @@ module.exports = new Command(async (args) => {
     }
 }, 
 {
-    triggers : ['roll', 'dice'],
-    desription : ['rolls a dice'],
+    triggers : ['dice', 'roll'],
+    description : ['rolls a dice'],
     usage : '{command} upperbound'
 });
