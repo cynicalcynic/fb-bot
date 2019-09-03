@@ -1,4 +1,4 @@
-const {readdirSync, ensureDirSync, unlink} = require('fs-extra');
+const fs = require('fs-extra');
 const {join} = require('path');
 const parseMessage = require('./utils/message-parser.js');
 const request = require('request-promise');
@@ -7,7 +7,7 @@ const uuid = require('uuid/v1');
 
 module.exports = async function messageHandler(message){
     let prefix = this.db.getThreadConfig(message.threadId).prefix;
-    let {success, args, cmd} = parseMessage(message.message, prefix);
+    let {success, args, cmd} = parseMessage(message.body, prefix);
     if(!success) return;
     
     cmd = cmd.toLowerCase();
@@ -15,17 +15,17 @@ module.exports = async function messageHandler(message){
     
     if(command !== undefined){
         //check and set cooldown
-        let userCooldowns = this.cooldowns.get(message.authorId);
+        let userCooldowns = this.cooldowns.get(message.senderID);
         if(!userCooldowns){
-            this.cooldowns.set(message.authorId, []);
-            userCooldowns = this.cooldowns.get(message.authorId);
+            this.cooldowns.set(message.senderID, []);
+            userCooldowns = this.cooldowns.get(message.senderID);
         }
         let cooldown = userCooldowns.find(c => c.triggers.includes(cmd));
         if(cooldown){
             if(cooldown.until > Date.now())
             {   
                 let waitTime = cooldown.until - Date.now();
-                this.client.sendMessage(message.threadId, `you have to wait ${waitTime/1000}s to use this command`);
+                this.client.sendMessage(`You have to wait ${waitTime/1000}s to use this command`, message.threadID);
                 return;
             }
             else{
@@ -38,21 +38,20 @@ module.exports = async function messageHandler(message){
 
         let {text, attachment} = await command.execute(args, message, this);
         if(text !== undefined)
-            this.client.sendMessage(message.threadId, text);
+            this.client.sendMessage(text, message.threadID);
 
         if(attachment !== undefined){
-            const tempDir = join(__dirname, 'tmp');
-            ensureDirSync(tempDir);
             for(let img of attachment){
-                let filePath;
                 if(img.startsWith('http')){
-                    filePath = join(tempDir, uuid());
-                    await downloadFile(img, filePath);
-                    this.client.sendAttachmentFile(message.threadId, filePath).then(()=>unlink(filePath));
+                    this.client.sendMessage({
+                        url : img
+                    }, message.threadID);
                 }
                 else{
                     filePath = join(__dirname, img);
-                    this.client.sendAttachmentFile(message.threadId, filePath);
+                    this.client.sendMessage({
+                        attachment : fs.createReadStream(filePath)
+                    }, message.threadID)
                 }
             }
         }

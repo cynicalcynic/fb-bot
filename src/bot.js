@@ -1,13 +1,13 @@
 const {readdirSync, ensureDirSync, unlink, writeFileSync, existsSync, readFileSync} = require('fs-extra');
 const {join} = require('path');
-const {Client} = require('libfb');
+const login = require('facebook-chat-api');
 const parseMessage = require('./utils/message-parser.js');
 const fetch = require('node-fetch');
 const Redis = require('ioredis');
 
 class Bot{
     constructor(username, password){
-        this.client = new Client();
+        // this.client = new Client();
         this.commands = []
         this.bootTime = Date.now();
         this.redis = new Redis();
@@ -38,15 +38,12 @@ class Bot{
     }
 
     async setupClient(username, password){
-        try{
-            await this.client.login(username,password);
-        }
-        catch(e){
-            console.log('sth went wrong. ' + e);
-            process.exit(1);
-        }
-        console.log('logged in');
-        this.client.on('message', require('./message-handler.js').bind(this));
+        login({email : username, password, }, (err, api)=>{
+            this.client = api;
+            api.listen((err, event)=>{
+                if(event.type == 'message') require('./message-handler.js').bind(this)(event);
+            });
+        });
     }
 }
 
