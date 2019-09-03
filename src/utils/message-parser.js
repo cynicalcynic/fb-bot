@@ -10,8 +10,8 @@ class ParsedMessage{
 
 module.exports = function parseMessage(message, prefix){
     const escapedPrefix = prefix.replace(/[\\^$*+?.()|[\]{}]/g, '\\$&'); //escape the user input
-    let body = message.replace(prefix, '');
-    let regex = RegExp(`^${escapedPrefix}.*`, 'g');
+    let body = message.replace(RegExp(prefix, 'i'), '');
+    let regex = RegExp(`^${escapedPrefix}.*`, 'gi');
     if(!regex.test(message)) return new ParsedMessage(false, null, null, body, prefix);
 
     keywords = body.match(/[^\ "]+|"(?:\\"|[^"])+"/g).map((el) => el.replace(/\"/g, ''));
