@@ -12,5 +12,6 @@ module.exports = new Command(async (args, message, {bootTime}) => {
     }
 }, 
 {
-    triggers : ['ping', 'status']
+    triggers : ['ping', 'status'],
+    description : 'pings the bot'
 });

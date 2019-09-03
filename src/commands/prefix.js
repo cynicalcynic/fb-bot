@@ -15,5 +15,7 @@ module.exports = new Command(async (args, message, {db}) => {
     }
 }, 
 {
-    triggers : ['prefix']
+    triggers : ['prefix'],
+    descriptions : ['changes the command prefix'],
+    usage : '{command} prefix'
 });

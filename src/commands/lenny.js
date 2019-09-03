@@ -6,5 +6,6 @@ module.exports = new Command(async (args) => {
     }
 }, 
 {
-    triggers : ['lenny', 'lennyface']
+    triggers : ['lenny', 'lennyface'],
+    description : 'displays a lennyface'
 });

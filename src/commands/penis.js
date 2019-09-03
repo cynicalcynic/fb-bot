@@ -3,7 +3,7 @@ const {random} = require('../utils/utils.js');
 
 module.exports = new Command(async (args, message, bot) => {
     let target;
-    if(!args[0]){
+    if(!args[0] || args[0] == 'me'){
         const {name} = await bot.client.getUserInfo(message.authorId);
         target = name;
     }
@@ -14,5 +14,6 @@ module.exports = new Command(async (args, message, bot) => {
     }
 }, 
 {
-    triggers : ['penis', 'howbig', 'peepee']
+    triggers : ['penis', 'howbig', 'peepee'],
+    description : 'a 100% accurate peepee measuring tool'
 });

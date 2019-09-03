@@ -26,5 +26,7 @@ module.exports = new Command(async (args) => {
     }
 }, 
 {
-    triggers : ['waifu', 'rate']
+    triggers : ['waifu', 'rate'],
+    description : 'rates a waifu',
+    usage : '{command} who'
 });

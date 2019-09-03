@@ -14,5 +14,6 @@ module.exports = new Command(async (args, message, bot) => {
     }
 }, 
 {
-    triggers : ['mock', 'stupid']
+    triggers : ['mock', 'stupid'],
+    description : 'insult someone'
 });

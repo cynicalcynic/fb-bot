@@ -6,5 +6,6 @@ module.exports = new Command(
 {
     triggers : ['hentai', 'anime'],
     endpoint : '/r/hentai.json?t=day&limit=100',
-    cooldown : 20000
+    cooldown : 20000,
+    description : 'displays a random hentai image'
 });

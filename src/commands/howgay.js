@@ -8,5 +8,7 @@ module.exports = new Command(async (args) => {
     }
 }, 
 {
-    triggers : ['howgay', 'gay']
+    triggers : ['howgay', 'gay'],
+    description : 'says how gay you are',
+    usage : '{command} who'
 });
