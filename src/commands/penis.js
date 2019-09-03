@@ -4,13 +4,12 @@ const {random} = require('../utils/utils.js');
 module.exports = new Command(async (args, message, bot) => {
     let target;
     if(!args[0] || args[0] == 'me'){
-        const {name} = await bot.client.getUserInfo(message.authorId);
-        target = name;
+        target = 'Your';
     }
     else
-        target = args.join(' ');
+        target = `${args.join(' ')}'s`;
     return {
-        text: `*${target}'s peepee*\n\n8${'='.repeat(random(1, 20))}D`
+        text: `*${target} peepee*\n\n8${'='.repeat(random(1, 20))}D`
     }
 }, 
 {
