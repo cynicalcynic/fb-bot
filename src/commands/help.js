@@ -11,7 +11,8 @@ module.exports = new Command(async (args, {threadId}, {commands, db}) => {
             const props = command.props;
             const usage = props.usage.replace('{command}', props.triggers[0]);
             help += `${prefix} ${props.triggers[0]} - ${props.description}\n` + 
-                    `Usage: ${prefix} ${usage}\n`;
+                    `Usage: ${prefix} ${usage}\n`+
+                    `Aliases: ${props.triggers.join(', ')}`;
         }
     }
     else
@@ -19,8 +20,8 @@ module.exports = new Command(async (args, {threadId}, {commands, db}) => {
         commands.forEach(({props}) => {
             help += `${prefix} ${props.triggers[0]} - ${props.description}\n`;
         });
+        help += `\nYou can also call '${prefix} help command' to see specific command help`;
     }
-    help += `\nYou can also call '${prefix} help command' to see specific command help`;
     return {
         text : help
     }
