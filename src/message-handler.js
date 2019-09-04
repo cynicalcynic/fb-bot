@@ -16,8 +16,9 @@ module.exports = async function messageHandler(message){
     //check admin permissions
     if(command.props.admin){
         const {adminIDs} = await this.db.getThreadInfo(message.threadID);
-        if(!adminIDs.map(item => item.id).includes(message.senderID)){
+        if(adminIDs.length && !adminIDs.map(item => item.id).includes(message.senderID)){
             this.client.sendMessage('You have to be an admin to use this command', message.threadID);
+            this.client.setMessageReaction(':angry:', message.messageID);
             return;
         }
     }
@@ -50,9 +51,15 @@ module.exports = async function messageHandler(message){
 
         if(attachment !== undefined){
             if(attachment.startsWith('http')){
+                const filename = attachment.split('?').shift().split('/').pop();
+                fs.ensureDir(join(__dirname, 'tmp'));
+                const path = join(__dirname, 'tmp', filename);
+                await downloadFile(attachment, path);
                 this.client.sendMessage({
-                    url : attachment,
-                }, message.threadID);
+                    attachment : fs.createReadStream(path),
+                }, message.threadID, ()=>{
+                    fs.unlink(path)
+                });
             }
             else{
                 this.client.sendMessage({
