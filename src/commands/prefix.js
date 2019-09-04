@@ -1,10 +1,10 @@
 const Command = require('../command.js');
 
-module.exports = new Command(async (args, message, {db}) => {
-    const newPrefix = args[0];
+module.exports = new Command(async (args, {threadID}, {db}) => {
     let response;
     if(args[0]){
-        db.setThreadConfig(message.threadId, 'prefix', newPrefix);
+        const newPrefix = args[0];
+        db.setThreadConfig(threadID, 'prefix', newPrefix);
         response = `Ok, the prefix is now \"${newPrefix}\"`;
     }
     else
@@ -17,5 +17,6 @@ module.exports = new Command(async (args, message, {db}) => {
 {
     triggers : ['prefix'],
     description : ['changes the command prefix'],
-    usage : '{command} prefix'
+    usage : '{command} prefix',
+    admin : true
 });
