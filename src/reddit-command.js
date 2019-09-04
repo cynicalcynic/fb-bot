@@ -6,7 +6,8 @@ class RedditCommand{
         this.props = Object.assign({
             cooldown : 5000,
             nsfw : false,
-            usage : '{command}'
+            usage : '{command}',
+            admin : false
         }, props);
     }
     async execute(args, message, bot){

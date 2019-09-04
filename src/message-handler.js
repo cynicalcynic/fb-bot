@@ -8,11 +8,19 @@ const uuid = require('uuid/v1');
 module.exports = async function messageHandler(message){
     let prefix = this.db.getThreadConfig(message.threadID).prefix;
     let {success, args, cmd} = parseMessage(message.body, prefix);
-    if(!success) return;
     
+    if(!success) return;
+
     cmd = cmd.toLowerCase();
     let command = this.commands.find((command) => command.props.triggers.includes(cmd));
-    
+    //check admin permissions
+    if(command.props.admin){
+        const {adminIDs} = await this.db.getThreadInfo(message.threadID);
+        if(!adminIDs.map(item => item.id).includes(message.senderID)){
+            this.client.sendMessage('You have to be an admin to use this command', message.threadID);
+            return;
+        }
+    }
     if(command !== undefined){
         //check and set cooldown
         let userCooldowns = this.cooldowns.get(message.senderID);

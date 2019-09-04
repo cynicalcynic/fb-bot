@@ -4,7 +4,8 @@ class Command{
         this.props = Object.assign({
             cooldown : 3000,
             nsfw : false,
-            usage : '{command}'
+            usage : '{command}',
+            admin : false
         }, props)
     }
 
