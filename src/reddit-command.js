@@ -29,7 +29,7 @@ class RedditCommand{
 
         const posts = JSON.parse(res).data.children.filter(post=>post.data.post_hint == 'image');
         return {
-            attachment: [arrayRandom(posts).data.url]
+            attachment: arrayRandom(posts).data.url
         }
         
     }

@@ -6,7 +6,7 @@ const {downloadFile} = require('./utils/utils.js')
 const uuid = require('uuid/v1');
 
 module.exports = async function messageHandler(message){
-    let prefix = this.db.getThreadConfig(message.threadId).prefix;
+    let prefix = this.db.getThreadConfig(message.threadID).prefix;
     let {success, args, cmd} = parseMessage(message.body, prefix);
     if(!success) return;
     
@@ -41,24 +41,19 @@ module.exports = async function messageHandler(message){
             this.client.sendMessage(text, message.threadID);
 
         if(attachment !== undefined){
-            for(let img of attachment){
-                if(img.startsWith('http')){
-                    this.client.sendMessage({
-                        url : img
-                    }, message.threadID);
-                }
-                else{
-                    filePath = join(__dirname, img);
-                    this.client.sendMessage({
-                        attachment : fs.createReadStream(filePath)
-                    }, message.threadID)
-                }
+            if(attachment.startsWith('http')){
+                this.client.sendMessage({
+                    url : attachment,
+                }, message.threadID);
+            }
+            else{
+                this.client.sendMessage({
+                    attachment : fs.createReadStream(join(__dirname, attachment))
+                }, message.threadID)
             }
         }
     }
     else{
-        this.client.sendMessage(message.threadId, 'I dont know what you want me to do faggot');
+        this.client.sendMessage(message.threadID, 'I dont know what you want me to do faggot');
     }
 }
-
-// function checkCooldown(cooldown)

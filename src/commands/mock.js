@@ -9,7 +9,7 @@ module.exports = new Command(async (args, message, bot) => {
         target = `${args.join(' ')}'s`;
     return {
         text: `*${target}:*`,
-        attachment: ['../assets/brainlet.jpg']
+        attachment: '../assets/brainlet.jpg'
     }
 }, 
 {
